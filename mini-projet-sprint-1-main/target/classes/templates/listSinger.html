@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Singer List</title>
+</head>
+<body>
+<div th:replace="template"></div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Singers List</h3>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Singer ID</th>
+                    <th>Singer Name</th>
+                    <th>Singer Description</th>
+                    <th>Feature Price</th>
+                    <th>Birth Date</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="singer : ${singers.content}">
+                    <td th:text="${singer.SingerId}"></td>
+                    <td th:text="${singer.SingerName}"></td>
+                    <td th:text="${singer.Description}"></td>
+                    <td th:text="${singer.Featureprice}"></td>
+                    <td th:text="${#dates.format(singer.Birthdate, 'dd-MM-yyyy')}"></td>
+                    <td>
+                        <a th:href="@{deleteSinger(SingerId=${singer.SingerId}, page=${currentPage}, size=${size})}" class="btn btn-danger" onclick="confirm('Are you sure?')">Delete</a>
+                        <a th:href="@{showUpdate(SingerId=${singer.SingerId}, page=${currentPage}, size=${size})}" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <ul class="nav nav-pills">
+                <li th:each="page,status: ${pages}" class="nav-item">
+                    <a th:class="${status.index == currentPage ? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                       th:href="@{singerList(page=${status.index}, size=${size})}"
+                       th:text="${status.index + 1}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
